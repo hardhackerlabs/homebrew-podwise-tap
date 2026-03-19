@@ -40,13 +40,24 @@ echo "linux_amd64  : $SHA_LINUX_AMD64"
 
 FORMULA="Formula/podwise.rb"
 
-sed -i.bak "s/version \".*\"/version \"${VERSION}\"/" "$FORMULA"
-sed -i.bak "s/REPLACE_WITH_SHA256_DARWIN_ARM64/${SHA_DARWIN_ARM64}/" "$FORMULA"
-sed -i.bak "s/REPLACE_WITH_SHA256_DARWIN_AMD64/${SHA_DARWIN_AMD64}/" "$FORMULA"
-sed -i.bak "s/REPLACE_WITH_SHA256_LINUX_ARM64/${SHA_LINUX_ARM64}/" "$FORMULA"
-sed -i.bak "s/REPLACE_WITH_SHA256_LINUX_AMD64/${SHA_LINUX_AMD64}/" "$FORMULA"
-sed -i.bak "/sha256 \"REPLACE_WITH/d" "$FORMULA"
-rm -f "${FORMULA}.bak"
+# Use awk to update version and sha256 values in one pass (macOS BSD compatible).
+# For each platform URL line, remember the target sha256, then replace the sha256 on the next match.
+awk -v ver="$VERSION" \
+    -v da64="$SHA_DARWIN_ARM64" \
+    -v dx64="$SHA_DARWIN_AMD64" \
+    -v la64="$SHA_LINUX_ARM64" \
+    -v lx64="$SHA_LINUX_AMD64" '
+  /version "[^"]*"/ { sub(/version "[^"]*"/, "version \"" ver "\"") }
+  /darwin_arm64/    { next_sha=da64 }
+  /darwin_amd64/    { next_sha=dx64 }
+  /linux_arm64/     { next_sha=la64 }
+  /linux_amd64/     { next_sha=lx64 }
+  /sha256 / && next_sha != "" {
+    sub(/sha256 "[^"]*"/, "sha256 \"" next_sha "\"")
+    next_sha=""
+  }
+  { print }
+' "$FORMULA" > "${FORMULA}.tmp" && mv "${FORMULA}.tmp" "$FORMULA"
 
 echo ""
 echo "Formula/podwise.rb updated to v${VERSION}."
