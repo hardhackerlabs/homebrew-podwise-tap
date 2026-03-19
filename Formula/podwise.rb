@@ -1,7 +1,7 @@
 class Podwise < Formula
   desc "CLI client for podwise.ai — turn any podcast episode into AI-powered insights"
   homepage "https://github.com/hardhackerlabs/podwise-cli"
-  version "0.1.0"
+  version "0.2.0"
   license "MIT"
 
   on_macos do
