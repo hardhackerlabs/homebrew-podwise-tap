@@ -1,26 +1,26 @@
 class Podwise < Formula
   desc "CLI client for podwise.ai — turn any podcast episode into AI-powered insights"
   homepage "https://github.com/hardhackerlabs/podwise-cli"
-  version "0.4.1"
+  version "0.4.2"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/hardhackerlabs/podwise-cli/releases/download/v#{version}/podwise_darwin_arm64.tar.gz"
-      sha256 "7b8255c4c25b5bed713b9a1dec92cb6be6073c79f330d65cce8276ab2ea3c9eb"
+      sha256 "80b24222b0f49a605c228524f5a7dded8406632839d4e70333a09fc3f8dbcbca"
     else
       url "https://github.com/hardhackerlabs/podwise-cli/releases/download/v#{version}/podwise_darwin_amd64.tar.gz"
-      sha256 "82a2c047a6d600e312733bfb1a153f58b3e2ff973864c895a635e930d03871a9"
+      sha256 "f4224c5d3a858a5c28a98496720a9d424722a524981f370b7022586afc5c6077"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/hardhackerlabs/podwise-cli/releases/download/v#{version}/podwise_linux_arm64.tar.gz"
-      sha256 "09ff768e4675e08ed12d75237293979125ce85d3aec0fd4551bc59c7616614f0"
+      sha256 "0220ef696bf4ee2fc708c18bfa3d760ac26328234cd3e51e9ecf28c7f3ca37ee"
     else
       url "https://github.com/hardhackerlabs/podwise-cli/releases/download/v#{version}/podwise_linux_amd64.tar.gz"
-      sha256 "bb014d46fc975b1dbce131b5d41ecb93bd3634f425b540628bfb170d7a3109ce"
+      sha256 "10620defed8a183145d40321522277b39823e23ac38c591ac2e33f52f23f76d4"
     end
   end
 
